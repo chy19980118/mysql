@@ -1,0 +1,100 @@
+Microsoft Windows [版本 10.0.17134.345]
+(c) 2018 Microsoft Corporation。保留所有权利。
+
+C:\WINDOWS\system32>mysql -u root -p
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 82
+Server version: 8.0.12 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create table collection (id varchar(20) primary key unique,name varchar(25),price int(5),time datetime,cancel bit default 1);
+Query OK, 0 rows affected (0.79 sec)
+
+mysql> select * from collection;
+Empty set (0.00 sec)
+
+mysql> desc collection;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id     | varchar(20) | NO   | PRI | NULL    |       |
+| name   | varchar(25) | YES  |     | NULL    |       |
+| price  | int(5)      | YES  |     | NULL    |       |
+| time   | datetime    | YES  |     | NULL    |       |
+| cancel | bit(1)      | YES  |     | b'1'    |       |
++--------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into collection(id,name,price,time) values('c123','apple',66.00,now());
+Query OK, 1 row affected (0.22 sec)
+
+mysql> select * from collection;
++------+-------+-------+---------------------+--------+
+| id   | name  | price | time                | cancel |
++------+-------+-------+---------------------+--------+
+| c123 | apple |    66 | 2018-11-12 16:08:02 |       |
++------+-------+-------+---------------------+--------+
+1 row in set (0.00 sec)
+
+mysql> insert into collection(id,name,price,time) values('g234','banana',88,'2018-1-12');
+Query OK, 1 row affected (0.20 sec)
+
+mysql>  insert into collection(id,name,price,time) values('y234','nikke',600,'2018-1-12 16:25:32');
+Query OK, 1 row affected (0.23 sec)
+
+mysql>  insert into collection(id,name,price,time) values('g123','puma',880,now());
+Query OK, 1 row affected (0.24 sec)
+
+mysql> select * from collection;
++------+--------+-------+---------------------+--------+
+| id   | name   | price | time                | cancel |
++------+--------+-------+---------------------+--------+
+| c123 | apple  |    66 | 2018-11-12 16:08:02 |       |
+| g123 | puma   |   880 | 2018-11-12 16:33:08 |       |
+| g234 | banana |    88 | 2018-01-12 00:00:00 |       |
+| h234 | banana |    88 | 2018-01-12 16:25:32 |       |
+| y234 | nikke  |   600 | 2018-01-12 16:25:32 |       |
++------+--------+-------+---------------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> update collection set cancel = 0 where name = 'banana';
+Query OK, 2 rows affected (0.23 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from collection;
++------+--------+-------+---------------------+--------+
+| id   | name   | price | time                | cancel |
++------+--------+-------+---------------------+--------+
+| c123 | apple  |    66 | 2018-11-12 16:08:02 |       |
+| g123 | puma   |   880 | 2018-11-12 16:33:08 |       |
+| g234 | banana |    88 | 2018-01-12 00:00:00 |        |
+| h234 | banana |    88 | 2018-01-12 16:25:32 |        |
+| y234 | nikke  |   600 | 2018-01-12 16:25:32 |       |
++------+--------+-------+---------------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> update collection set cancel = 0 where price = 880;
+Query OK, 1 row affected (0.14 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from collection;
++------+--------+-------+---------------------+--------+
+| id   | name   | price | time                | cancel |
++------+--------+-------+---------------------+--------+
+| c123 | apple  |    66 | 2018-11-12 16:08:02 |       |
+| g123 | puma   |   880 | 2018-11-12 16:33:08 |        |
+| g234 | banana |    88 | 2018-01-12 00:00:00 |        |
+| h234 | banana |    88 | 2018-01-12 16:25:32 |        |
+| y234 | nikke  |   600 | 2018-01-12 16:25:32 |       |
++------+--------+-------+---------------------+--------+
+5 rows in set (0.00 sec)
+
+mysql>
